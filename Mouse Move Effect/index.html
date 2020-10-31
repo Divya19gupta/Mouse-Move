@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+  <style>
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
+  
+    body {
+      margin: 0;
+    }
+  
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+  
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0,0,0,1);
+      font-size: 100px;
+    }
+    </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+<script>
+    const h = document.querySelector('.hero');
+    const t = h.querySelector('h1');
+    const walk = 500;
+
+    function shadow(e)
+    {
+        const {offsetWidth:width, offsetHeight:height} = h;
+        let{offsetX: x, offsetY: y } = e;
+        //here we see if we hava any children element inside of main element
+        //the offsetX & Y basically takes other values of chilren elements
+        //as outside of div values are above 100 and as soon as enters div values becomes
+        //less than 10.
+
+        if(this!==e.target)// this = hero class and e.target is the place we hover which changes for window object and div element inside
+        {
+            //will work only if both are same.
+            x = x + e.target.offsetLeft;
+            y = y + e.target.offsetTop;
+            //we did only for top and left bec values were becoming0,0 there only
+            //there it will add the req value to total x,y.
+        }
+
+        const xWalk = Math.round((x/width*walk)-(walk/2));
+        /*here if total value is =100
+        we are making it 50 to -50.
+        */
+        const yWalk =  Math.round((y/width*walk)-(walk/2)); 
+
+        t.style.textShadow = `
+        /* valuepx valuepx blur color */
+        ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7), 
+        ${xWalk * -1}px ${yWalk}px 0 rgba(255,0,255,0.7),
+        ${yWalk}px ${xWalk * -1}px 0 rgba(255,0,255,0.7),
+        ${yWalk * -1}px ${xWalk}px 0 rgba(255,0,255,0.7)
+        /*all goes opp to one other*/
+        `;
+    }
+    h.addEventListener('mousemove',shadow);
+</script>
+</body>
+</html>
